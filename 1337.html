@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leet Horizon Integration Week - Rabat</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        /* 1337 Logo Styling */
+        .logo-1337 {
+            position: absolute;
+            top: 1vmin;
+            left: 0;
+            z-index: 1000;
+            pointer-events: auto;
+        }
+        
+        .logo-1337 img {
+            width: 20vmin;
+            height: 10vmin;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0.125vmin 0.5vmin rgba(255, 255, 255, 0.3));
+        }
+        
+        .logo-1337 img:hover {
+            transform: translateY(-0.125vmin) scale(1.05);
+            filter: drop-shadow(0 0.25vmin 0.75vmin rgba(255, 255, 255, 0.4));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15), transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(147, 197, 253, 0.1), transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(37, 99, 235, 0.08), transparent 40%),
+                #000000;
+            color: white;
+            min-height: 100vh;
+            padding: 60px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Starry Night Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        .star-small {
+            width: 1px;
+            height: 1px;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+            animation-duration: 3s;
+        }
+
+        .star-medium {
+            width: 2px;
+            height: 2px;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+            animation-duration: 4s;
+        }
+
+        .star-large {
+            width: 3px;
+            height: 3px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 1);
+            animation-duration: 5s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(1); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.2); 
+            }
+        }
+
+        @keyframes float-star {
+            0% { transform: translateX(0px) translateY(0px); }
+            25% { transform: translateX(10px) translateY(-5px); }
+            50% { transform: translateX(-5px) translateY(-10px); }
+            75% { transform: translateX(-10px) translateY(5px); }
+            100% { transform: translateX(0px) translateY(0px); }
+        }
+
+        .star-moving {
+            animation: twinkle 4s ease-in-out infinite, float-star 20s ease-in-out infinite;
+        }
+
+        /* Shooting Stars */
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #ffffff, transparent);
+            border-radius: 1px;
+            animation: shooting 3s linear infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes shooting {
+            0% {
+                transform: translateX(-100px) translateY(0px);
+                opacity: 0;
+                width: 0px;
+            }
+            10% {
+                opacity: 1;
+                width: 100px;
+            }
+            90% {
+                opacity: 1;
+                width: 100px;
+            }
+            100% {
+                transform: translateX(300px) translateY(-150px);
+                opacity: 0;
+                width: 0px;
+            }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.08), transparent 40%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #93c5fd 30%, #3b82f6 70%, #ffffff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            position: relative;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #93c5fd, #60a5fa);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .header .subtitle {
+            font-size: 1.4rem;
+            color: rgba(147, 197, 253, 0.9);
+            font-weight: 400;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+        }
+
+        .day-card {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(59, 130, 246, 0.1);
+        }
+
+        .day-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.6), transparent);
+        }
+
+        .day-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .day-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 32px 64px -12px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .day-card:hover::after {
+            opacity: 1;
+        }
+
+        .day-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .day-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #93c5fd);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        .event-section {
+            margin-bottom: 25px;
+            padding: 30px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            position: relative;
+        }
+
+        .event-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(15, 23, 42, 0.1) 100%);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        .event-overview {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 25px;
+        }
+
+        .detail-item {
+            background: rgba(59, 130, 246, 0.08);
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .detail-item:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #93c5fd;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .logistics-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .logistics-list li {
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 0;
+            position: relative;
+            padding-left: 24px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .logistics-list li::before {
+            content: '▸';
+            color: #3b82f6;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.1em;
+            filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.5));
+        }
+
+        /* Design Preview Link Styling */
+        .design-link {
+            color: #93c5fd !important;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .design-link:hover {
+            color: #ffffff !important;
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .design-link:active {
+            transform: translateY(0px);
+        }
+
+        .design-link-small {
+            color: #93c5fd !important;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 400;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
+        .design-link-small:hover {
+            color: #ffffff !important;
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+        }
+
+        .design-link-small:active {
+            transform: translateY(0px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 40px 15px;
+            }
+            
+            .header h1 {
+                font-size: 2.8rem;
+            }
+            
+            .days-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .day-card {
+                padding: 30px;
+            }
+
+            .event-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(30, 64, 175, 0.08));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+            position: relative;
+        }
+
+        .highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.05));
+            border-radius: 16px;
+            pointer-events: none;
+        }
+
+        .party-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .party-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #3b82f6, #93c5fd, #60a5fa, #1d4ed8);
+            border-radius: 26px;
+            z-index: -1;
+            animation: party-border 3s linear infinite;
+        }
+
+        @keyframes party-border {
+            0% { background: linear-gradient(45deg, #3b82f6, #93c5fd, #60a5fa, #1d4ed8); }
+            25% { background: linear-gradient(45deg, #93c5fd, #60a5fa, #1d4ed8, #3b82f6); }
+            50% { background: linear-gradient(45deg, #60a5fa, #1d4ed8, #3b82f6, #93c5fd); }
+            75% { background: linear-gradient(45deg, #1d4ed8, #3b82f6, #93c5fd, #60a5fa); }
+            100% { background: linear-gradient(45deg, #3b82f6, #93c5fd, #60a5fa, #1d4ed8); }
+        }
+
+        /* Modern scroll bar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+
+        /* Floating elements animation */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-elements::before,
+        .floating-elements::after {
+            content: '';
+            position: absolute;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-elements::before {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-elements::after {
+            width: 60px;
+            height: 60px;
+            top: 70%;
+            right: 10%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Leet Horizon Picture Styling */
+        .leet-horizon-logo {
+            position: absolute;
+            top: 0;
+            left: 180vmin;
+            z-index: 1000;
+            pointer-events: auto;
+        }
+
+        .leet-horizon-logo img {
+            width: 15vmin;
+            height: 12vmin;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0.125vmin 0.5vmin rgba(0, 0, 0, 0.3));
+        }
+        
+        .leet-horizon-logo img:hover {
+            transform: translateY(-0.125vmin);
+            filter: drop-shadow(0 0.25vmin 0.75vmin rgba(0, 0, 0, 0.4));
+        }
+    </style>
+</head>
+<body>
+    <!-- 1337 Logo -->
+    <div class="logo-1337">
+        <img src="https://img.notionusercontent.com/s3/prod-files-secure%2Fd2380020-853b-81b2-9612-000328f81747%2Fb909f674-1b5f-41f5-a62b-f1b3e3514168%2F1337-Photoroom.png/size/w=1420?exp=1756832287&sig=ICo2VeUPB0CgQopIlnGr6FS80GSLz2U3w25JgvZdHk0&id=26180020-853b-8056-b824-ca6c69f88679&table=block&userId=252d872b-594c-819b-a5ca-00027ec11237" alt="1337 Logo">
+    </div>
+    
+    <!-- Leet Horizon Picture -->
+    <div class="leet-horizon-logo">
+        <img src="https://img.notionusercontent.com/s3/prod-files-secure%2Fd2380020-853b-81b2-9612-000328f81747%2Fa03f8641-7326-493c-bbe0-e32502659b15%2Ftest.png/size/w=1000?exp=1756833621&sig=RkihVHB4FZfqfUOZeV7b8fwC8wCXAo-xEiD6YbV4Hi8&id=26180020-853b-807d-a328-c66b3ccbf334&table=block&userId=252d872b-594c-819b-a5ca-00027ec11237" alt="Leet Horizon Logo">
+    </div>
+    
+    <!-- Animated Starry Night Background -->
+    <div class="stars" id="stars-container"></div>
+    
+    <div class="floating-elements"></div>
+    <div class="container">
+        <div class="header">
+            <h1>Leet Horizon Integration Week</h1>
+            <p class="subtitle">1337 Rabat Campus - Building Connections & Celebrating Culture</p>
+        </div>
+
+        <div class="days-grid">
+            <!-- Day 1 -->
+            <div class="day-card">
+                <h2 class="day-title">Day 1</h2>
+                <div class="event-section">
+                    <h3 class="event-title">🎮 Game Night</h3>
+                    <p class="event-overview">
+                        Fun evening with billiard, PS5, foosball, and board games designed to bring students together in a relaxed and interactive atmosphere.
+                    </p>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Participants</div>
+                            <div class="detail-value">200 students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Open to</div>
+                            <div class="detail-value">All students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">9pm - 12pm</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">3 Play grounds and Agora</div>
+                        </div>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Logistics</div>
+                        <ul class="logistics-list">
+                            <li>billiard cues (repair needed)</li>
+                            <li>5 PS5 controllers (repair needed)</li>
+                            <li>2 EA SPORTS FC 26 (if not out yet FC 25)</li>
+                            <li>Board games (chess, Rami, Cards, Dame, parchisi)</li>
+                            <li>Lemonade juice & cups</li>
+                        </ul>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Team</div>
+                        <div class="detail-value">Organized by Leet Horizon Events Club with student volunteers (safety & venue management ensured)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="day-card">
+                <h2 class="day-title">Day 2</h2>
+                <div class="event-section">
+                    <h3 class="event-title">🎈🎨 Color War </h3>
+                    <p class="event-overview">
+                        Color War is an outdoor activity where students engage in a friendly battle using colorful powder and water balloons. The event encourages teamwork, interaction, and creativity.
+                    </p>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Participants</div>
+                            <div class="detail-value">200 – 220 students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Open to</div>
+                            <div class="detail-value">New students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">3pm - 6pm</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">Phase 3B basketball court</div>
+                        </div>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Logistics</div>
+                        <ul class="logistics-list">
+                            <li>200 Balloons</li>
+                            <li>12 kg Maize flour</li>
+                            <li>100g Food Colors</li>
+                            <li>Water hoses and buckets</li>
+                            <li>200 Eye protection glasses</li>
+                            <li>Music system</li>
+                        </ul>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Team</div>
+                        <div class="detail-value">Organized by Leet Horizon Events Club with student volunteers (safety & venue management ensured)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="day-card">
+                <h2 class="day-title">Day 4</h2>
+                <div class="event-section">
+                    <h3 class="event-title">🫖 Chill Night</h3>
+                    <p class="event-overview">
+                        Traditional Moroccan evening gathering with tea, sweets, music, and ambiance designed to bring students together and celebrate cultural heritage in a warm and welcoming atmosphere.
+                    </p>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Participants</div>
+                            <div class="detail-value"> 250 – 300 students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Open to</div>
+                            <div class="detail-value">All students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">9pm - 12pm</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">In front of 1337 campus</div>
+                        </div>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Logistics</div>
+                        <ul class="logistics-list">
+                            <li>Zarbiya (traditional carpets) — 30 to 35 carpets (3×2 m). Example of the needed carpet: <a href="https://honored-gorgonzola-464.notion.site/26080020853b80fbbcbbf7edf31367d9" target="_blank" class="design-link-small">🔗 View Carpet Example</a></li>
+                            <li>10 – 15 low tables</li>
+                            <li style="margin-top: 15px; font-weight: 600; color: #93c5fd;">Caterer Services:</li>
+                            <li style="margin-left: 20px;">Moroccan mint tea & coffee</li>
+                            <li style="margin-left: 20px;">Traditional sweets (ghriba, fekkas, kaab el ghazal)</li>
+                            <li>30 Fanous (Ramadan lanterns) on each table and for decoration</li>
+                            <li>string lights bulb (optional) <a href="https://www.amazon.com.au/Festoon-Outdoor-Christmas-Waterproof-Shatterproof/dp/B0DF7D82BM/ref=sxin_14_sbv_search_btf?cv_ct_cx=led%2Bcolor%2Bchanging%2Bstring%2Blights%2Bbulb&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=1-1-0a53d72a-e58c-4324-b739-134d51de9f78" target="_blank" class="design-link-small">🔗 String Lights bulb Preview</a></li>
+                            <li>2 String lights for ambiance <a href="https://www.amazon.com/JMEXSUSS-Christmas-Outdoor-Waterproof-Decorations/dp/B0CSYLL8FL/ref=sxin_16_pa_sp_search_thematic_sspa?cv_ct_cx=string%2Blights&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=1-2-7efdef4d-9875-47e1-927f-8c2c1c47ed49-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM" target="_blank" class="design-link-small">🔗 String Lights Preview</a></li>
+                            <li>6 String lights Pole Stand for Hard Ground <a href="https://www.amazon.com/Derkniel-Outdoor-Adjustable-Decorate-Lighting/dp/B09BQVD773" target="_blank" class="design-link-small">🔗 String Lights Stand Example</a></li>
+                            <li>Aissawa group for live traditional music</li>
+                            <li>Pillows for comfort (optional)</li>
+                        </ul>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Team</div>
+                        <div class="detail-value">Organized by Leet Horizon Events Club with student volunteers (safety & venue management ensured)</div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Day 5 -->
+            <div class="day-card">
+                <h2 class="day-title">Day 5</h2>
+                <div class="event-section">
+                    <h3 class="event-title">⚽ Soap Football</h3>
+                    <p class="event-overview">
+                        An exciting Soap Football event where students will play a fun football match on a plastic ground covered with soap and water. The day will also include a friendly water balloon fight and other engaging challenges.
+                    </p>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Participants</div>
+                            <div class="detail-value">200 – 220 students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Open to</div>
+                            <div class="detail-value">New students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">3pm - 6pm</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">Football field</div>
+                        </div>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Logistics</div>
+                        <ul class="logistics-list">
+                            <li>2m width Plastic roll × 3 pieces</li>
+                            <li>22 - 25 liters of liquid soap</li>
+                            <li>Water supply for mixing and cleaning</li>
+                            <li>2 - 3 footballs</li>
+                            <li>Small goals</li>
+                            <li>Cones/markers</li>
+                            <li>Music system</li>
+                        </ul>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Team</div>
+                        <div class="detail-value">Organized by Leet Horizon Events Club with student volunteers (safety & venue management ensured)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day X - DJ Party -->
+            <div class="day-card party-card">
+                <h2 class="day-title">Day 7</h2>
+                <div class="event-section">
+                    <h3 class="event-title">🎧 DJ Party Night</h3>
+                    <p class="event-overview">
+                        A Party Night featuring professional DJ performing across multiple music genres, followed by a special live performance by Stormy, then continuing with DJ sets. The event will take place in pergola with lighting effects, soft drinks and water. It is scheduled as part of Integration Week's evening activities.
+                    </p>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Participants</div>
+                            <div class="detail-value">400 students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Open to</div>
+                            <div class="detail-value">All students</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">9pm - 12pm</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">Pergola</div>
+                        </div>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Logistics</div>
+                        <ul class="logistics-list">
+                            <li>Professional DJ equipment (turntables, mixers, speakers)</li>
+                            <li>DJ booth setup</li>
+                            <li>Live performance stage setup for Stormy</li>
+                            <li>Microphone and sound system for live performance</li>
+                            <li>LED lighting system (colorful party lights)</li>
+                            <li>Fog/smoke machine for atmosphere</li>
+                            <li>Drinks Vending Machine</li>
+                        </ul>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Team</div>
+                        <div class="detail-value">Organized by Leet Horizon Events Club with student volunteers (safety & venue management ensured)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Needs for the Event -->
+            <div class="day-card">
+                <h2 class="day-title">Special Needs</h2>
+                <div class="event-section">
+                    <h3 class="event-title">📋 Event Requirements</h3>
+                    <p class="event-overview">
+                        Essential items and t-shirts needed for the successful organization and execution of the Integration Week events, including branded merchandise for club members and volunteers.
+                    </p>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Category</div>
+                            <div class="detail-value">Event Supplies & Merchandise</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Priority</div>
+                            <div class="detail-value">High</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Deadline</div>
+                            <div class="detail-value">Before event week</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Purpose</div>
+                            <div class="detail-value">Organization & Team Identification</div>
+                        </div>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">T-shirts for Club Members</div>
+                        <ul class="logistics-list">
+                            <li>👕 2 × L t-shirt</li>
+                            <li>👕 5 × M t-shirt</li>
+                            <li>👕 2 × S t-shirt</li>
+                            <li>👔 1 × S polo</li>
+                        </ul>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">T-shirts for Club Volunteers</div>
+                        <ul class="logistics-list">
+                            <li>👕 5 × L t-shirt</li>
+                            <li>👕 5 × M t-shirt</li>
+                            <li>👕 5 × S t-shirt</li>
+                        </ul>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Design Preview</div>
+                        <div class="detail-value">
+                            <a href="https://honored-gorgonzola-464.notion.site/below-the-picture-you-will-find-the-used-logo-on-the-shirts-25f80020853b80398be4fa526d55f783" target="_blank" class="design-link">
+                                🔗 View shirts Design Templates
+                            </a>
+                        </div>
+                    </div>
+                    <div class="detail-item highlight" style="margin-top: 20px;">
+                        <div class="detail-label">Additional Items</div>
+                        <ul class="logistics-list">
+                            <li>30 Branded bracelets with 1337 and Leet Horizon logo</li>
+                            <li>1 Roller Banner stand featuring the logo and an overview of the club's mission and activities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create animated starry night background
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            const numberOfStars = 150;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random star sizes
+                const size = Math.random();
+                if (size > 0.8) {
+                    star.classList.add('star-large');
+                } else if (size > 0.5) {
+                    star.classList.add('star-medium');
+                } else {
+                    star.classList.add('star-small');
+                }
+                
+                // Random positions
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delays for natural twinkling
+                star.style.animationDelay = Math.random() * 4 + 's';
+                
+                // Add movement to some stars
+                if (Math.random() > 0.7) {
+                    star.classList.add('star-moving');
+                    star.style.animationDuration = (15 + Math.random() * 10) + 's';
+                }
+                
+                starsContainer.appendChild(star);
+            }
+            
+            // Create shooting stars occasionally
+            createShootingStar();
+            setInterval(createShootingStar, 8000 + Math.random() * 5000);
+        }
+        
+        function createShootingStar() {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            shootingStar.style.left = Math.random() * 100 + '%';
+            shootingStar.style.top = Math.random() * 50 + '%';
+            shootingStar.style.animationDelay = '0s';
+            
+            document.getElementById('stars-container').appendChild(shootingStar);
+            
+            setTimeout(() => {
+                if (shootingStar.parentNode) {
+                    shootingStar.parentNode.removeChild(shootingStar);
+                }
+            }, 3000);
+        }
+        
+        // Initialize stars when page loads
+        window.addEventListener('load', createStars);
+
+        // Mouse tracking for interactive glow effect
+        document.addEventListener('mousemove', (e) => {
+            document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+
+        // Smooth scroll behavior for better UX
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // Add intersection observer for card animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all day cards
+        document.querySelectorAll('.day-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add CSS animation for fade in
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .day-card {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
